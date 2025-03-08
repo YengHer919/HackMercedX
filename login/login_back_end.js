@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import fs from "fs";
 import dotenv from "dotenv";
+import{ Configuration, PlaidApi, PlaidEnvironments } from "plaid";
+import { redirect } from "express/lib/response";
 
 dotenv.config(); // Load environment variables
 
@@ -31,7 +33,17 @@ const PORT = 5000;
 // Startin da server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-
+//intialize plaid
+const plaidConfig = new Configuration({
+  basePath: PlaidEnvironments.sandbox,
+  baseOptions: {
+    headers: {
+      "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
+      "PLAID-SECRET": process.env.PLAID_SECRET,
+    },
+  },
+});
+const plaidClient = new PlaidApi(plaidConfig);
 
 
 // This is a middleware function that will be used to authenticate the token so no funny business happens
@@ -98,4 +110,77 @@ app.post("/register", async (req, res) => {
   saveUsers(users);
 
   res.json({ message: "User registered successfully", email, username });
+
+  
+});
+
+app.post("/create-link-token", authenticateToken, async (req, res) => {
+  try{
+    const response = await plaidClient.linkTokenCreate({
+      user: {
+        client_user_id: req.user.email,
+      },
+      client_name: "Wallet Tracker",
+      products: ["auth", "transactions"],
+      country_codes: ["US"],
+      language: "en",
+      redirect_uri: "http://localhost:5000/home/home.html",
+    });
+    res.json({ link_token: response.data.link_token });
+
+  }catch(error){
+    console.error("Plaid Link Token Error:", error.response.data);
+    res.status(500).json({ error: "something is wrong with the plaid link token" });
+  }
+
+});
+
+app.post("/exchange-public-token", authenticateToken, async (req, res) => {
+  try{
+    const { public_token } = req.body;
+    const response = await plaidClient.itemPublicTokenExchange({
+      public_token,
+    });
+
+    let users = loadUsers();
+    users = users.map((user) => {
+      if (user.email === req.user.email) {
+        user.plaid_access_token = response.data.access_token;
+        user.plaid_item_id = response.data.item_id;
+      }
+      return user;
+    });
+    saveUsers(users);
+
+    res.json({ message: "Plaid token exchange successful" });
+  }catch(error){
+    console.error("Plaid Token Exchange Error:", error.response.data);
+    res.status(500).json({ error: "something is wrong with the plaid token exchange" });
+  }
+});
+
+app.get("/transactions", authenticateToken, async (req, res) => {
+  try{
+    let users = loadUsers();
+    const user = user.find((u) => u.email === req.user.email);
+
+    if (!user || !user.plaid_access_token) {
+      return res.status(400).json({ error: "Plaid access token not found" });
+    }
+
+    const startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 1);
+    const endDate = new Date();
+
+    const response = await plaidClient.transactionsGet({
+      access_token: user.plaid_access_token,
+      start_date: startDate.toISOString(),
+      end_date: endDate.toISOString(),
+    });
+
+    res.json({ transactions: response.data.transactions });
+  }catch(error){
+    console.error("Plaid Transactions Error:", error.response.data);
+    res.status(500).json({ error: "something is wrong with the plaid transactions" });
+  }
 });
