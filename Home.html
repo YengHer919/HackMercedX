@@ -706,8 +706,7 @@
     let wallets = JSON.parse(localStorage.getItem('wallets')) || [];
     let currentWalletId = localStorage.getItem('currentWalletId') || null;
     let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
-    const apiKey = 'TQX79EWISA5DMXNT'; // Replace with your actual API key
-
+    const apiKey = 'FK42HP88PGP1DG9C'; 
 
     // DOM Elements
     const tabDashboard = document.getElementById('tab-dashboard');
@@ -1462,38 +1461,6 @@ async function checkApiAvailability() {
   }
 }
 
-// Display API key input if needed
-function setupApiKeyInput() {
-  const apiKeyInput = document.createElement('div');
-  apiKeyInput.className = 'api-key-input';
-  apiKeyInput.innerHTML = `
-    <div class="form-group">
-      <label for="api-key">Alpha Vantage API Key</label>
-      <input type="text" id="api-key" placeholder="Enter your Alpha Vantage API key">
-      <button id="save-api-key">Save</button>
-    </div>
-    <div class="api-info">
-      <p>To use the stock features, you need a free Alpha Vantage API key. 
-      Get one at <a href="https://www.alphavantage.co/support/#api-key" target="_blank">alphavantage.co</a></p>
-    </div>
-  `;
-  
-  document.querySelector('.container').prepend(apiKeyInput);
-  
-  // Add event listener for saving API key
-  document.getElementById('save-api-key').addEventListener('click', function() {
-    const newApiKey = document.getElementById('api-key').value.trim();
-    if (newApiKey) {
-      localStorage.setItem('alphavantage_api_key', newApiKey);
-      window.apiKey = newApiKey;
-      apiKeyInput.remove();
-      checkApiAndInitialize();
-    } else {
-      alert('Please enter a valid API key');
-    }
-  });
-}
-
 // Check API key and initialize
 async function checkApiAndInitialize() {
   // Check if API key is stored in localStorage
@@ -1516,10 +1483,7 @@ async function checkApiAndInitialize() {
   }
 }
 
-// Start the app
-window.addEventListener('DOMContentLoaded', checkApiAndInitialize);
-
-    function init() {
+function init() {
     // Show initial tab
     if (currentWalletId && getWalletById(currentWalletId)) {
       showTab('dashboard');
@@ -1539,8 +1503,9 @@ window.addEventListener('DOMContentLoaded', checkApiAndInitialize);
     });
   }
 
-    
-    init();
-  </script>
+// Start the app
+window.addEventListener('DOMContentLoaded', checkApiAndInitialize);
+
+</script>
 </body>
 </html>
