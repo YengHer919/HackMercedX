@@ -320,16 +320,8 @@
         localStorage.setItem('username', data.username);
         localStorage.setItem('email', data.email);
         
-        // Show welcome page
-        authContainer.classList.add('hidden');
-        welcomeContainer.classList.remove('hidden');
-        usernameDisplay.textContent = data.username;
-        emailDisplay.textContent = data.email;
-        
-        // Clear form
-        document.getElementById('login-email').value = '';
-        document.getElementById('login-password').value = '';
-        loginError.textContent = '';
+        //redirect to home page
+        window.location.href = "../home/home.html";
         
       } catch (error) {
         loginError.textContent = 'An error occurred. Please try again.';

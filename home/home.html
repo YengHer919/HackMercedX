@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome, <span id="user-name"></span>!</h1>
+  <p>Your email: <span id="user-email"></span></p>
+  <button id="logout-btn">Logout</button>
+
+  <script>
+    // Check if user is logged in
+    const username = localStorage.getItem("username");
+    const email = localStorage.getItem("email");
+
+    if (!username || !email) {
+      window.location.href = "login_front_end.html"; // Redirect if not logged in
+    } else {
+      document.getElementById("user-name").textContent = username;
+      document.getElementById("user-email").textContent = email;
+    }
+
+    // Logout Function
+    document.getElementById("logout-btn").addEventListener("click", () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("email");
+      window.location.href = "login_front_end.html"; // Redirect back to login
+    });
+  </script>
+</body>
+</html>
