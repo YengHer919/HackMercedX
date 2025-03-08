@@ -373,7 +373,9 @@
     // App state
     let wallets = JSON.parse(localStorage.getItem('wallets')) || [];
     let currentWalletId = localStorage.getItem('currentWalletId') || null;
-    
+    let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+    const apiKey = 'YOUR_ALPHA_VANTAGE_API_KEY'; // Replace with your actual API key
+
     // DOM Elements
     const tabActivity = document.getElementById('tab-activity');
     const tabWallets = document.getElementById('tab-wallets');
@@ -412,9 +414,6 @@
     const addToWatchlistBtn = document.getElementById('add-to-watchlist-btn');
     const watchlistElement = document.getElementById('watchlist');
 
-    // Add to your app state
-    let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
-    const apiKey = 'YOUR_ALPHA_VANTAGE_API_KEY'; // Replace with your actual API key
     // Helper Functions
     function saveWallets() {
       localStorage.setItem('wallets', JSON.stringify(wallets));
@@ -563,9 +562,40 @@
     // Event Listeners
     tabActivity.addEventListener('click', () => showTab('activity'));
     tabWallets.addEventListener('click', () => showTab('wallets'));
-    
     goToWalletsBtn.addEventListener('click', () => showTab('wallets'));
-    
+    tabStocks.addEventListener('click', () => showTab('stocks'));
+    searchStockBtn.addEventListener('click', () => {
+      const symbol = stockSymbolInput.value.trim().toUpperCase();
+      if (symbol) {
+        fetchStockData(symbol);
+      } else {
+        alert('Please enter a stock symbol');
+      }
+    });
+
+    addToWatchlistBtn.addEventListener('click', () => {
+      const symbol = stockResult.dataset.symbol;
+      const price = stockResult.dataset.price;
+      const change = stockResult.dataset.change;
+      const changeValue = stockResult.dataset.changeValue;
+      
+      // Check if stock is already in watchlist
+      if (!watchlist.some(stock => stock.symbol === symbol)) {
+        watchlist.push({
+          symbol,
+          price,
+          change,
+          changeValue,
+          addedAt: Date.now()
+        });
+        
+        saveWatchlist();
+        updateWatchlist();
+      } else {
+        alert('This stock is already in your watchlist');
+      }
+    });
+
     addWalletBtn.addEventListener('click', () => {
       const name = newWalletName.value.trim();
       const balance = parseFloat(initialBalance.value) || 0;
@@ -639,42 +669,7 @@
     });
     
     // Function to save watchlist
-
-    // Add these event listeners
-tabStocks.addEventListener('click', () => showTab('stocks'));
-
-searchStockBtn.addEventListener('click', () => {
-  const symbol = stockSymbolInput.value.trim().toUpperCase();
-  if (symbol) {
-    fetchStockData(symbol);
-  } else {
-    alert('Please enter a stock symbol');
-  }
-});
-
-addToWatchlistBtn.addEventListener('click', () => {
-  const symbol = stockResult.dataset.symbol;
-  const price = stockResult.dataset.price;
-  const change = stockResult.dataset.change;
-  const changeValue = stockResult.dataset.changeValue;
-  
-  // Check if stock is already in watchlist
-  if (!watchlist.some(stock => stock.symbol === symbol)) {
-    watchlist.push({
-      symbol,
-      price,
-      change,
-      changeValue,
-      addedAt: Date.now()
-    });
     
-    saveWatchlist();
-    updateWatchlist();
-  } else {
-    alert('This stock is already in your watchlist');
-  }
-});
-
 function saveWatchlist() {
   localStorage.setItem('watchlist', JSON.stringify(watchlist));
 }
@@ -803,6 +798,7 @@ function updateWatchlist() {
     });
   });
 }
+
 // Function to refresh watchlist data
 async function refreshWatchlist() {
   if (watchlist.length === 0) return;
