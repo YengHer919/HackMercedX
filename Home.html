@@ -277,6 +277,52 @@
       margin: 0;
     }
 
+  /* Layout for the dashboard */
+  .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  /* For larger screens, make it a two-column layout */
+  @media (min-width: 768px) {
+    .dashboard-container {
+      flex-direction: row;
+    }
+    
+    .dashboard-section {
+      flex: 1;
+    }
+    
+    #activity-section {
+      margin-right: 1rem;
+    }
+    
+    #stocks-section {
+      margin-left: 1rem;
+    }
+  }
+  
+  /* Container needs to be wider */
+  .container {
+    max-width: 800px;
+  }
+  
+  /* Section styling */
+  .dashboard-section {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  
+  .dashboard-section h2 {
+    margin-top: 0;
+    color: #4285f4;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+</style>
+
   </style>
 </head>
 <body>
@@ -284,28 +330,62 @@
     <h1>Wallet Tracker</h1>
     
     <div class="tabs">
-      <div class="tab" id="tab-activity">Activity</div>
+      <div class="tab active" id="tab-dashboard">Dashboard</div>
       <div class="tab" id="tab-wallets">Wallets</div>
-      <div class="tab" id="tab-stocks">Stocks</div>
     </div>
     
-    <!-- Activity/Home Page -->
-    <div class="page hidden" id="activity-page">
-      <div id="no-wallet-selected" class="welcome-container hidden">
-        <p>No wallet selected. Please select a wallet from the Wallets tab.</p>
-        <button id="go-to-wallets">Go to Wallets</button>
-      </div>
-      
-      <div id="wallet-details" class="hidden">
-        <div class="current-wallet">Current Wallet: <span id="current-wallet-name"></span></div>
-        <div class="wallet-balance">Balance: $<span id="current-wallet-balance"></span></div>
-        
-        <h3>Recent Transactions</h3>
-        <div id="transactions-list">
-          <!-- Transactions will be added here dynamically -->
+    <!-- New Dashboard Page (combines Activity and Stocks) -->
+    <div class="page" id="dashboard-page">
+      <div class="dashboard-container">
+        <!-- Activity Section -->
+        <div class="dashboard-section" id="activity-section">
+          <h2>Activity</h2>
+          <div id="no-wallet-selected" class="welcome-container hidden">
+            <p>No wallet selected. Please select a wallet from the Wallets tab.</p>
+            <button id="go-to-wallets">Go to Wallets</button>
+          </div>
+          
+          <div id="wallet-details" class="hidden">
+            <div class="current-wallet">Current Wallet: <span id="current-wallet-name"></span></div>
+            <div class="wallet-balance">Balance: $<span id="current-wallet-balance"></span></div>
+            
+            <h3>Recent Transactions</h3>
+            <div id="transactions-list">
+              <!-- Transactions will be added here dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Stocks Section -->
+        <div class="dashboard-section" id="stocks-section">
+          <h2>Stocks</h2>
+          <div class="form-group">
+            <label for="stock-symbol">Stock Symbol</label>
+            <input type="text" id="stock-symbol" placeholder="Enter stock symbol (e.g., AAPL)">
+          </div>
+          
+          <button id="search-stock-btn">Search</button>
+          
+          <div id="stock-result" class="hidden">
+            <!-- Stock result content remains the same -->
+          </div>
+          
+          <div id="stock-error" class="error-message hidden">
+            Could not find stock information. Please check the symbol and try again.
+          </div>
+          
+          <div id="stock-loading" class="hidden">
+            <p>Loading stock information...</p>
+          </div>
+          
+          <h3>Watchlist</h3>
+          <div id="watchlist">
+            <!-- Watchlist stocks will be added here -->
+          </div>
         </div>
       </div>
     </div>
+
     
     <!-- Wallets Page -->
     <div class="page hidden" id="wallets-page">
@@ -413,6 +493,8 @@
     const stockMarketCapValue = document.getElementById('stock-market-cap-value');
     const addToWatchlistBtn = document.getElementById('add-to-watchlist-btn');
     const watchlistElement = document.getElementById('watchlist');
+    const tabDashboard = document.getElementById('tab-dashboard');
+    const dashboardPage = document.getElementById('dashboard-page');
 
     // Helper Functions
     function saveWallets() {
@@ -442,38 +524,32 @@
     // UI Functions
     function showTab(tabName) {
       // Hide all pages
-      activityPage.classList.add('hidden');
+      dashboardPage.classList.add('hidden');
       walletsPage.classList.add('hidden');
-      stocksPage.classList.add('hidden');
       
       // Remove active class from tabs
-      tabActivity.classList.remove('active');
+      tabDashboard.classList.remove('active');
       tabWallets.classList.remove('active');
-      tabStocks.classList.remove('active');
       
       // Show selected page and activate tab
-      if (tabName === 'activity') {
-        activityPage.classList.remove('hidden');
-        tabActivity.classList.add('active');
-        updateActivityPage();
+      if (tabName === 'dashboard') {
+        dashboardPage.classList.remove('hidden');
+        tabDashboard.classList.add('active');
+        updateActivitySection();
+        updateWatchlist();
       } else if (tabName === 'wallets') {
         walletsPage.classList.remove('hidden');
         tabWallets.classList.add('active');
         updateWalletsPage();
-      } else if (tabName === 'stocks') {
-        stocksPage.classList.remove('hidden');
-        tabStocks.classList.add('active');
-        updateWatchlist();
       }
     }
     
-    function updateActivityPage() {
-      if (!currentWalletId || !getWalletById(currentWalletId)) {
-        noWalletSelected.classList.remove('hidden');
-        walletDetails.classList.add('hidden');
-        return;
-      }
-      
+    function updateActivitySection() {
+    if (!currentWalletId || !getWalletById(currentWalletId)) {
+      noWalletSelected.classList.remove('hidden');
+      walletDetails.classList.add('hidden');
+      return;
+    }
       const wallet = getWalletById(currentWalletId);
       
       noWalletSelected.classList.add('hidden');
@@ -564,6 +640,7 @@
     tabWallets.addEventListener('click', () => showTab('wallets'));
     goToWalletsBtn.addEventListener('click', () => showTab('wallets'));
     tabStocks.addEventListener('click', () => showTab('stocks'));
+    tabDashboard.addEventListener('click', () => showTab('dashboard'));
     searchStockBtn.addEventListener('click', () => {
       const symbol = stockSymbolInput.value.trim().toUpperCase();
       if (symbol) {
@@ -841,13 +918,13 @@ async function refreshWatchlist() {
 setInterval(refreshWatchlist, 60000); // Update every minute
     // Initialize
     function init() {
-      // Show initial tab
-      if (currentWalletId && getWalletById(currentWalletId)) {
-        showTab('activity');
-      } else {
-        showTab('wallets');
-      }
+    // Show initial tab
+    if (currentWalletId && getWalletById(currentWalletId)) {
+      showTab('dashboard');
+    } else {
+      showTab('wallets');
     }
+  }
     
     init();
   </script>
