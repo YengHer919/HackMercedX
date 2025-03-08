@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallet Tracker</title>
+  <link rel = "stylesheet" href = "home.css">
+
+</head>
+<body>
+  <div class="container" id="app-container">
+    <h1>Wallet Tracker</h1>
+    
+    <div class="tabs">
+      <div class="tab active" id="tab-dashboard">Dashboard</div>
+      <div class="tab" id="tab-wallets">Wallets</div>
+    </div>
+    
+    <!-- Dashboard Page (combines Activity, Stocks, and Investment sections) -->
+    <div class="page" id="dashboard-page">
+      <div class="dashboard-container">
+        <!-- Activity Section -->
+        <div class="dashboard-section" id="activity-section">
+          <h2>Activity</h2>
+          <div id="no-wallet-selected" class="welcome-container hidden">
+            <p>No wallet selected. Please select a wallet from the Wallets tab.</p>
+            <button id="go-to-wallets">Go to Wallets</button>
+          </div>
+          
+          <div id="wallet-details" class="hidden">
+            <div class="current-wallet">Current Wallet: <span id="current-wallet-name"></span></div>
+            <div class="wallet-balance">Balance: $<span id="current-wallet-balance"></span></div>
+            
+            <h3>Recent Transactions</h3>
+            <div id="transactions-list">
+              <!-- Transactions will be added here dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Stocks Section -->
+        <div class="dashboard-section" id="stocks-section">
+          <h2>Stocks</h2>
+          <div class="form-group">
+            <label for="stock-symbol">Stock Symbol</label>
+            <input type="text" id="stock-symbol" placeholder="Enter stock symbol (e.g., AAPL)">
+          </div>
+          
+          <button id="search-stock-btn">Search</button>
+          
+          <div id="stock-result" class="hidden">
+            <div class="stock-card">
+              <h3 id="stock-name">Company Name</h3>
+              <div class="stock-price">Current Price: $<span id="stock-price-value"></span></div>
+              <div class="stock-change">Change: <span id="stock-change-value"></span></div>
+              <div class="stock-volume">Volume: <span id="stock-volume-value"></span></div>
+              <div class="stock-high">High: $<span id="stock-high-value"></span></div>
+              <div class="stock-low">Low: $<span id="stock-low-value"></span></div>
+              <div class="stock-pe">P/E Ratio: <span id="stock-pe-value"></span></div>
+              <div class="stock-dividend">Dividend Yield: <span id="stock-dividend-value"></span>%</div>
+              <div class="stock-market-cap">Market Cap: $<span id="stock-market-cap-value"></span></div>
+            </div>
+            
+            <button id="add-to-watchlist-btn" class="select-wallet">Add to Watchlist</button>
+          </div>
+          
+          <div id="stock-error" class="error-message hidden">
+            Could not find stock information. Please check the symbol and try again.
+          </div>
+          
+          <div id="stock-loading" class="hidden">
+            <p>Loading stock information...</p>
+          </div>
+          
+          <h3>Watchlist</h3>
+          <div id="watchlist">
+            <!-- Watchlist stocks will be added here -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Investment Dashboard Section -->
+      <div class="investment-dashboard">
+        <h2>Investment Dashboard</h2>
+        
+        <div class="risk-slider-container">
+          <label for="risk-tolerance">Your Risk Tolerance:</label>
+          <input type="range" id="risk-tolerance" class="risk-slider" min="1" max="10" value="5">
+          <div class="risk-labels">
+            <div class="risk-label">Conservative</div>
+            <div class="risk-label">Moderate</div>
+            <div class="risk-label">Aggressive</div>
+          </div>
+        </div>
+        
+        <button id="find-matches-btn">Find Matching Stocks</button>
+        
+        <div id="recommendation-result" class="hidden">
+          <div class="stock-recommendation">
+            <div class="recommendation-header">Top Recommendation</div>
+            <h3 id="recommended-stock-name">Stock Name</h3>
+            <div class="stock-symbol" id="recommended-stock-symbol">SYMB</div>
+            <div class="stock-category" id="recommended-category">Technology</div>
+            <div class="stock-price">Current Price: $<span id="recommended-price">0.00</span></div>
+            
+            <div class="risk-status">
+              Risk Level: <span id="recommended-risk-level" class="risk-level risk-medium">Moderate</span>
+            </div>
+            
+            <div class="stock-metrics">
+              <div class="metric">
+                <div class="metric-name">
+                  Beta
+                  <span class="tooltip">
+                    <span class="risk-info-icon">?</span>
+                    <span class="tooltiptext">Measures volatility compared to the market. >1 means more volatile than market, <1 means less volatile.</span>
+                  </span>
+                </div>
+                <div class="metric-value" id="beta-value">1.15</div>
+              </div>
+              
+              <div class="metric">
+                <div class="metric-name">
+                  Volatility
+                  <span class="tooltip">
+                    <span class="risk-info-icon">?</span>
+                    <span class="tooltiptext">Standard deviation of returns, measuring price fluctuation.</span>
+                  </span>
+                </div>
+                <div class="metric-value" id="volatility-value">18.7%</div>
+              </div>
+              
+              <div class="metric">
+                <div class="metric-name">
+                  P/E Ratio
+                  <span class="tooltip">
+                    <span class="risk-info-icon">?</span>
+                    <span class="tooltiptext">Price-to-Earnings ratio. Lower can indicate better value, but may vary by industry.</span>
+                  </span>
+                </div>
+                <div class="metric-value" id="pe-value">24.5</div>
+              </div>
+              
+              <div class="metric">
+                <div class="metric-name">
+                  Dividend Yield
+                  <span class="tooltip">
+                    <span class="risk-info-icon">?</span>
+                    <span class="tooltiptext">Annual dividend payments as percentage of share price.</span>
+                  </span>
+                </div>
+                <div class="metric-value" id="dividend-value">1.8%</div>
+              </div>
+            </div>
+            
+            <button id="add-recommended-to-watchlist" class="select-wallet">Add to Watchlist</button>
+          </div>
+        </div>
+        
+        <div class="popular-stocks">
+          <h3>Popular Stocks by Risk Category</h3>
+          <div class="stocks-grid" id="popular-stocks-grid">
+            <!-- Popular stocks will be added here -->
+          </div>
+        </div>
+      </div>  
+    </div>
+    
+    <!-- Wallets Page -->
+    <div class="page hidden" id="wallets-page">
+      <div id="wallets-list">
+        <!-- Wallets will be added here dynamically -->
+      </div>
+      
+      <div id="no-wallets" class="hidden">
+        <p>You don't have any wallets yet. Add one below!</p>
+      </div>
+      
+      <div class="form-group">
+        <label for="new-wallet-name">Add New Wallet</label>
+        <input type="text" id="new-wallet-name" placeholder="Enter wallet name">
+      </div>
+      
+      <div class="form-group">
+        <label for="initial-balance">Initial Balance ($)</label>
+        <input type="number" id="initial-balance" placeholder="Enter initial balance" value="0">
+      </div>
+      
+      <button id="add-wallet-btn">Add Wallet</button>
+    </div>
+  </div>
+
+  <script src ="home.js" defer></script>
+  <script src="http://cdn.plaid.com/link/v2/stable/link-intialize.js"></script>
+</body>
+</html>
