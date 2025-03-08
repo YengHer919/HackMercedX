@@ -316,6 +316,206 @@
     font-size: 1.5rem;
     margin-bottom: 1rem;
   }
+
+  /*For risk */
+  .risk-analyzer {
+      margin-top: 2rem;
+      border-top: 1px solid #eee;
+      padding-top: 1rem;
+    }
+    
+    .risk-slider-container {
+      margin: 1.5rem 0;
+    }
+    
+    .risk-slider {
+      width: 100%;
+      margin: 1rem 0;
+    }
+    
+    .risk-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+    }
+    
+    .risk-label {
+      font-size: 0.8rem;
+      color: #555;
+    }
+    
+    .stock-recommendation {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 1rem;
+      margin-top: 1rem;
+      background-color: #f0f8ff;
+    }
+    
+    .recommendation-header {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #4285f4;
+    }
+    
+    .stock-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .metric {
+      background-color: #f5f5f5;
+      padding: 0.5rem;
+      border-radius: 4px;
+      text-align: center;
+    }
+    
+    .metric-name {
+      font-size: 0.8rem;
+      color: #555;
+    }
+    
+    .metric-value {
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .risk-info-icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background-color: #4285f4;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 16px;
+      font-size: 12px;
+      cursor: help;
+      margin-left: 0.25rem;
+    }
+    
+    .stock-category {
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 0.25rem;
+    }
+    
+    .risk-level {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .risk-low {
+      background-color: #34a853;
+    }
+    
+    .risk-medium {
+      background-color: #fbbc05;
+      color: #333;
+    }
+    
+    .risk-high {
+      background-color: #ea4335;
+    }
+    
+    .popular-stocks {
+      margin-top: 1.5rem;
+    }
+    
+    .stocks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .stock-card-mini {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0.75rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    
+    .stock-card-mini:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stock-symbol {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    
+    .risk-reward-ratio {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -100px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 0.8rem;
+    }
+    
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    /* Dashboard sections layout */
+    .dashboard-sections {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    @media (min-width: 768px) {
+      .dashboard-sections {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    .section-heading {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.5rem;
+    }
+    
+    .dashboard-card {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 1rem;
+      background-color: #fff;
+    }
 </style>
 </head>
 <body>
@@ -389,6 +589,106 @@
           </div>
         </div>
       </div>
+      <div class="page" id="dashboard-page">
+        <h2>Investment Dashboard</h2>
+        
+        <div class="risk-slider-container">
+          <label for="risk-tolerance">Your Risk Tolerance:</label>
+          <input type="range" id="risk-tolerance" class="risk-slider" min="1" max="10" value="5">
+          <div class="risk-labels">
+            <div class="risk-label">Conservative</div>
+            <div class="risk-label">Moderate</div>
+            <div class="risk-label">Aggressive</div>
+          </div>
+        </div>
+        
+        <button id="find-matches-btn">Find Matching Stocks</button>
+        
+        <div id="recommendation-result" class="hidden">
+          <div class="stock-recommendation">
+            <div class="recommendation-header">Top Recommendation</div>
+            <h3 id="recommended-stock-name">Stock Name</h3>
+            <div class="stock-symbol" id="recommended-stock-symbol">SYMB</div>
+            <div class="stock-category" id="recommended-category">Technology</div>
+            <div class="stock-price">Current Price: $<span id="recommended-price">0.00</span></div>
+            
+            <div class="risk-status">
+              Risk Level: <span id="recommended-risk-level" class="risk-level risk-medium">Moderate</span>
+            </div>
+            
+            <div class="stock-metrics">
+              <div class="metric">
+                <div class="metric-name">
+                  Beta
+                  <span class="tooltip">
+                    <span class="risk-info-icon">?</span>
+                    <span class="tooltiptext">Measures volatility compared to the market. >1 means more volatile than market, <1 means less volatile.</span>
+                  </span>
+                </div>
+                <div class="metric-value" id="beta-value">1.15</div>
+              </div>
+              
+              <div class="metric">
+                <div class="metric-name">
+                  Volatility
+                  <span class="tooltip">
+                    <span class="risk-info-icon">?</span>
+                    <span class="tooltiptext">Standard deviation of returns, measuring price fluctuation.</span>
+                  </span>
+                </div>
+                <div class="metric-value" id="volatility-value">18.7%</div>
+              </div>
+              
+              <div class="metric">
+                <div class="metric-name">
+                  P/E Ratio
+                  <span class="tooltip">
+                    <span class="risk-info-icon">?</span>
+                    <span class="tooltiptext">Price-to-Earnings ratio. Lower can indicate better value, but may vary by industry.</span>
+                  </span>
+                </div>
+                <div class="metric-value" id="pe-value">24.5</div>
+              </div>
+              
+              <div class="metric">
+                <div class="metric-name">
+                  Dividend Yield
+                  <span class="tooltip">
+                    <span class="risk-info-icon">?</span>
+                    <span class="tooltiptext">Annual dividend payments as percentage of share price.</span>
+                  </span>
+                </div>
+                <div class="metric-value" id="dividend-value">1.8%</div>
+              </div>
+            </div>
+            
+            <button id="add-recommended-to-watchlist" class="select-wallet">Add to Watchlist</button>
+          </div>
+        </div>
+        
+        <div class="dashboard-sections">
+          <div class="dashboard-card">
+            <div class="section-heading">Your Watchlist</div>
+            <div id="watchlist-container">
+              <div id="watchlist-items"></div>
+            </div>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="section-heading">Recent Activity</div>
+            <div id="activity-container">
+              <div id="activity-items"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="popular-stocks">
+          <h3>Popular Stocks by Risk Category</h3>
+          <div class="stocks-grid" id="popular-stocks-grid">
+            <!-- Popular stocks will be added here -->
+          </div>
+        </div>
+      </div>  
     </div>
 
     
@@ -455,6 +755,20 @@
     const stockMarketCapValue = document.getElementById('stock-market-cap-value');
     const addToWatchlistBtn = document.getElementById('add-to-watchlist-btn');
     const watchlistElement = document.getElementById('watchlist');
+    const riskToleranceSlider = document.getElementById('risk-tolerance');
+    const findMatchesBtn = document.getElementById('find-matches-btn');
+    const recommendationResult = document.getElementById('recommendation-result');
+    const recommendedStockName = document.getElementById('recommended-stock-name');
+    const recommendedStockSymbol = document.getElementById('recommended-stock-symbol');
+    const recommendedCategory = document.getElementById('recommended-category');
+    const recommendedPrice = document.getElementById('recommended-price');
+    const recommendedRiskLevel = document.getElementById('recommended-risk-level');
+    const betaValue = document.getElementById('beta-value');
+    const volatilityValue = document.getElementById('volatility-value');
+    const peValue = document.getElementById('pe-value');
+    const dividendValue = document.getElementById('dividend-value');
+    const addRecommendedToWatchlist = document.getElementById('add-recommended-to-watchlist');
+    const popularStocksGrid = document.getElementById('popular-stocks-grid');
 
     // Helper Functions
     function saveWallets() {
@@ -827,6 +1141,324 @@
 
     // Set up a periodic refresh
     setInterval(refreshWatchlist, 60000); // Update every minute
+
+    // Stock database - normally this would come from an API
+    const stockDatabase = [
+      {
+        symbol: 'AAPL',
+        name: 'Apple Inc.',
+        category: 'Technology',
+        price: 187.45,
+        beta: 1.28,
+        volatility: 18.7,
+        pe: 32.1,
+        dividend: 0.5,
+        riskScore: 6
+      },
+      {
+        symbol: 'MSFT',
+        name: 'Microsoft Corporation',
+        category: 'Technology',
+        price: 420.32,
+        beta: 0.93,
+        volatility: 16.5,
+        pe: 37.2,
+        dividend: 0.7,
+        riskScore: 5
+      },
+      {
+        symbol: 'GOOGL',
+        name: 'Alphabet Inc.',
+        category: 'Technology',
+        price: 177.66,
+        beta: 1.05,
+        volatility: 19.8,
+        pe: 25.3,
+        dividend: 0.0,
+        riskScore: 7
+      },
+      {
+        symbol: 'AMZN',
+        name: 'Amazon.com Inc.',
+        category: 'E-Commerce',
+        price: 183.92,
+        beta: 1.21,
+        volatility: 23.4,
+        pe: 41.7,
+        dividend: 0.0,
+        riskScore: 8
+      },
+      {
+        symbol: 'BRK.B',
+        name: 'Berkshire Hathaway Inc.',
+        category: 'Conglomerate',
+        price: 416.95,
+        beta: 0.85,
+        volatility: 13.2,
+        pe: 10.1,
+        dividend: 0.0,
+        riskScore: 4
+      },
+      {
+        symbol: 'JNJ',
+        name: 'Johnson & Johnson',
+        category: 'Healthcare',
+        price: 152.03,
+        beta: 0.56,
+        volatility: 11.8,
+        pe: 19.7,
+        dividend: 3.2,
+        riskScore: 2
+      },
+      {
+        symbol: 'PG',
+        name: 'Procter & Gamble',
+        category: 'Consumer Goods',
+        price: 165.87,
+        beta: 0.38,
+        volatility: 9.7,
+        pe: 26.3,
+        dividend: 2.5,
+        riskScore: 1
+      },
+      {
+        symbol: 'V',
+        name: 'Visa Inc.',
+        category: 'Financial Services',
+        price: 279.55,
+        beta: 0.95,
+        volatility: 15.3,
+        pe: 30.5,
+        dividend: 0.7,
+        riskScore: 4
+      },
+      {
+        symbol: 'NVDA',
+        name: 'NVIDIA Corporation',
+        category: 'Technology',
+        price: 959.86,
+        beta: 1.65,
+        volatility: 32.6,
+        pe: 62.5,
+        dividend: 0.05,
+        riskScore: 9
+      },
+      {
+        symbol: 'TSLA',
+        name: 'Tesla Inc.',
+        category: 'Automotive',
+        price: 178.21,
+        beta: 2.03,
+        volatility: 40.2,
+        pe: 47.3,
+        dividend: 0.0,
+        riskScore: 10
+      },
+      {
+        symbol: 'KO',
+        name: 'The Coca-Cola Company',
+        category: 'Consumer Goods',
+        price: 69.14,
+        beta: 0.59,
+        volatility: 10.5,
+        pe: 24.5,
+        dividend: 3.0,
+        riskScore: 3
+      },
+      {
+        symbol: 'VZ',
+        name: 'Verizon Communications',
+        category: 'Telecommunications',
+        price: 41.83,
+        beta: 0.34,
+        volatility: 8.9,
+        pe: 15.2,
+        dividend: 6.5,
+        riskScore: 2
+      }
+    ];
+    
+    // Event Listeners for Risk Analyzer
+    findMatchesBtn.addEventListener('click', findMatchingStocks);
+    addRecommendedToWatchlist.addEventListener('click', addRecommendedStockToWatchlist);
+
+    // Update popular stocks display when risk tolerance changes
+    riskToleranceSlider.addEventListener('input', updatePopularStocksByRisk);
+
+    // Function to find matching stocks based on risk tolerance
+    function findMatchingStocks() {
+      const riskTolerance = parseInt(riskToleranceSlider.value);
+      
+      // Find stock matches for the given risk tolerance
+      const matches = stockDatabase.filter(stock => {
+        // Match stocks with a risk score within ±2 of the user's risk tolerance
+        const riskDifference = Math.abs(stock.riskScore - riskTolerance);
+        return riskDifference <= 2;
+      });
+      
+      // Sort matches by how close they are to the user's exact risk tolerance
+      matches.sort((a, b) => {
+        const aDiff = Math.abs(a.riskScore - riskTolerance);
+        const bDiff = Math.abs(b.riskScore - riskTolerance);
+        return aDiff - bDiff;
+      });
+      
+      if (matches.length > 0) {
+        displayRecommendation(matches[0]);
+      } else {
+        // Should never happen given our diverse stock database
+        alert('No matching stocks found for your risk profile.');
+      }
+    }
+
+    // Function to display a stock recommendation
+    function displayRecommendation(stock) {
+      recommendedStockName.textContent = stock.name;
+      recommendedStockSymbol.textContent = stock.symbol;
+      recommendedCategory.textContent = stock.category;
+      recommendedPrice.textContent = stock.price.toFixed(2);
+      
+      // Set risk level text and class
+      let riskLevelText;
+      let riskLevelClass;
+      
+      if (stock.riskScore <= 3) {
+        riskLevelText = 'Low';
+        riskLevelClass = 'risk-low';
+      } else if (stock.riskScore <= 7) {
+        riskLevelText = 'Moderate';
+        riskLevelClass = 'risk-medium';
+      } else {
+        riskLevelText = 'High';
+        riskLevelClass = 'risk-high';
+      }
+      
+      recommendedRiskLevel.textContent = riskLevelText;
+      recommendedRiskLevel.className = 'risk-level ' + riskLevelClass;
+      
+      // Update metrics
+      betaValue.textContent = stock.beta.toFixed(2);
+      volatilityValue.textContent = stock.volatility.toFixed(1) + '%';
+      peValue.textContent = stock.pe.toFixed(1);
+      dividendValue.textContent = stock.dividend.toFixed(1) + '%';
+      
+      // Store the stock symbol for the watchlist
+      addRecommendedToWatchlist.dataset.symbol = stock.symbol;
+      addRecommendedToWatchlist.dataset.price = stock.price.toFixed(2);
+      addRecommendedToWatchlist.dataset.name = stock.name;
+      
+      // Show the recommendation
+      recommendationResult.classList.remove('hidden');
+    }
+
+    // Function to add the recommended stock to watchlist
+    function addRecommendedStockToWatchlist() {
+      const symbol = addRecommendedToWatchlist.dataset.symbol;
+      const price = addRecommendedToWatchlist.dataset.price;
+      
+      // Check if stock is already in watchlist
+      if (!watchlist.some(stock => stock.symbol === symbol)) {
+        watchlist.push({
+          symbol,
+          price,
+          change: 'N/A',
+          changeValue: 0,
+          addedAt: Date.now()
+        });
+        
+        saveWatchlist();
+        updateWatchlist();
+        
+        alert(`${symbol} has been added to your watchlist!`);
+      } else {
+        alert('This stock is already in your watchlist');
+      }
+    }
+
+    // Function to update popular stocks display based on risk tolerance
+    function updatePopularStocksByRisk() {
+      const riskTolerance = parseInt(riskToleranceSlider.value);
+      
+      // Display appropriate risk category label
+      const riskLabels = document.querySelectorAll('.risk-label');
+      riskLabels.forEach((label, index) => {
+        if ((index === 0 && riskTolerance <= 3) || 
+            (index === 1 && riskTolerance > 3 && riskTolerance <= 7) ||
+            (index === 2 && riskTolerance > 7)) {
+          label.style.fontWeight = 'bold';
+          label.style.color = '#4285f4';
+        } else {
+          label.style.fontWeight = 'normal';
+          label.style.color = '#555';
+        }
+      });
+      
+      // Clear previous stocks
+      popularStocksGrid.innerHTML = '';
+      
+      // Categorize stocks by risk
+      const lowRiskStocks = stockDatabase.filter(stock => stock.riskScore <= 3);
+      const mediumRiskStocks = stockDatabase.filter(stock => stock.riskScore > 3 && stock.riskScore <= 7);
+      const highRiskStocks = stockDatabase.filter(stock => stock.riskScore > 7);
+      
+      // Determine which category to show based on risk tolerance
+      let stocksToShow;
+      let categoryLabel;
+      
+      if (riskTolerance <= 3) {
+        stocksToShow = lowRiskStocks;
+        categoryLabel = 'Conservative Picks';
+      } else if (riskTolerance <= 7) {
+        stocksToShow = mediumRiskStocks;
+        categoryLabel = 'Balanced Opportunities';
+      } else {
+        stocksToShow = highRiskStocks;
+        categoryLabel = 'High Growth Potential';
+      }
+      
+      // Add category heading
+      const heading = document.createElement('h4');
+      heading.textContent = categoryLabel;
+      heading.style.margin = '0 0 1rem 0';
+      popularStocksGrid.appendChild(heading);
+      
+      // Add up to 4 stocks from the selected category
+      stocksToShow.slice(0, 4).forEach(stock => {
+        const stockCard = document.createElement('div');
+        stockCard.className = 'stock-card-mini';
+        stockCard.innerHTML = `
+          <div class="stock-symbol">${stock.symbol}</div>
+          <div class="stock-name">${stock.name}</div>
+          <div class="stock-price">$${stock.price.toFixed(2)}</div>
+          <div class="risk-reward-ratio">Beta: ${stock.beta.toFixed(2)}</div>
+        `;
+        
+        // Add click event to show full details
+        stockCard.addEventListener('click', () => {
+          displayRecommendation(stock);
+          recommendationResult.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        popularStocksGrid.appendChild(stockCard);
+      });
+    }
+
+    // Initialize risk analyzer
+    function initRiskAnalyzer() {
+      updatePopularStocksByRisk();
+    }
+
+    // Add to initialization
+    const originalInit = init;
+    init = function() {
+      originalInit();
+      initRiskAnalyzer();
+    };
+
+    // Re-initialize if the page is already loaded
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      initRiskAnalyzer();
+    }
 
     // Initialize
     function init() {
