@@ -72,7 +72,7 @@ app.post("/login", (req, res) => {
   
 
 app.post("/register", async (req, res) => {
-  const { email, username, password } = req.body;
+  const { email, username, password,firstname,lastname } = req.body;
   let users = loadUsers();
 
   // Check if the user already exists
@@ -85,6 +85,8 @@ app.post("/register", async (req, res) => {
 
   // Create new user object
   const newUser = {
+    firstname,
+    lastname,
     email,
     username,
     password: hashedPassword, // Store the hashed password
