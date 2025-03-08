@@ -1,0 +1,22 @@
+{
+  "name": "hackmercedx-1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node login_back_end.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YengHer919/HackMercedX.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YengHer919/HackMercedX/issues"
+  },
+  "homepage": "https://github.com/YengHer919/HackMercedX#readme",
+  "description": ""
+}
+
