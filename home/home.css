@@ -9,10 +9,13 @@
     --container-bg: #1B263B;
     --card-bg: #415A77;
     --border-bg: #778DA9;
-    --text--color: #E0E1DD;
+    --text-color: #E0E1DD;
+    --highlight-color: #56ccf2;
   }
   
   body {
+    background: var(--bg-color);
+    color: var(--text-color);
     margin: 0;
     padding: 0;
     display: flex;
@@ -22,6 +25,7 @@
   }
   
   .container {
+    background: var(--container-bg);
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     width: 100%;
@@ -42,22 +46,31 @@
   
   .tabs {
     display: flex;
-    margin-bottom: 1.5rem;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
   }
   
   .tab {
     flex: 1;
     text-align: center;
-    padding: 0.75rem;
+    padding: 12px;
     cursor: pointer;
-    border-bottom: 2px solid #ddd;
-    transition: all 0.3s ease;
+    font-weight: bold;
+    color: var(--text-color);
+    transition: 0.3s ease-in-out;
+    border-bottom: 2px solid transparent;
+  }
+
+  .tab:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
   }
   
   .tab.active {
-    border-bottom: 2px solid #4285f4;
-    color: #4285f4;
-    font-weight: bold;
+    border-bottom: 3px solid var(--highlight-color);
+    color: var(--highlight-color);
   }
   
   .form-group {
@@ -72,10 +85,18 @@
   
   input {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 12px;
+    border: 3px solid var(--border-bg);
+    color: var(--text-color);
+    border-radius: 6px;
     font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+  }
+
+  input:focus {
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 8px rgba(86, 204, 242, 0.3);
   }
   
   button {
@@ -124,12 +145,14 @@
     background-color: #d32f2f;
   }
   
-  .wallet-card {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    position: relative;
+  .wallet-card, .stock-card {
+    border: var(--card-bg);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-bg);
+    transition: all 0.3s ease-in-out;
+
   }
   
   .wallet-name {
@@ -279,9 +302,10 @@
 
 /* Layout for the dashboard */
 .dashboard-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
 }
 
 /* For larger screens, make it a two-column layout */
@@ -305,9 +329,16 @@
 
 /* Section styling */
 .dashboard-section {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  padding: 1rem;
+  background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-bg);
+    transition: transform 0.3s ease-in-out;
+}
+.dashboard:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px rgba(86, 204, 242, 0.3);
 }
 
 .dashboard-section h2 {
