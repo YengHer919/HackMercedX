@@ -1,0 +1,592 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --bg-color: #0D1B2A;
+    --container-bg: rgba(27, 38, 59, 0.8);
+    --card-bg: rgba(65, 90, 119, 0.8);
+    --border-bg: #778DA9;
+    --text-color: #E0E1DD;
+    --highlight-color: #56ccf2;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    backdrop-filter: blur(10px);
+}
+
+.container {
+    background: var(--container-bg);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 1200px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    background: var(--glass-bg);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+}
+
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--text-color);
+    transition: all 0.3s ease-in-out;
+    border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+    background: var(--glass-bg);
+    transform: scale(1.05);
+    box-shadow: var(--shadow);
+}
+
+.tab.active {
+    border-bottom: 3px solid var(--highlight-color);
+    color: var(--highlight-color);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--border-bg);
+    color: var(--text-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+}
+
+input:focus {
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 12px rgba(86, 204, 242, 0.5);
+}
+
+button {
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #4285f4, #3367d6);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+    box-shadow: var(--shadow);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #3367d6, #4285f4);
+    transform: translateY(-2px);
+}
+
+.error-message {
+    color: #d93025;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.success-message {
+    color: #34a853;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.welcome-container {
+    text-align: center;
+}
+
+.logout-btn {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    margin-top: 2rem;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+}
+
+.wallet-card, .stock-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s ease-in-out;
+    backdrop-filter: blur(10px);
+}
+
+.wallet-card:hover, .stock-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(86, 204, 242, 0.3);
+}
+
+.wallet-name {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.wallet-balance {
+    color: #34a853;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.transaction {
+    border-bottom: 1px solid var(--glass-border);
+    padding: 0.75rem 0;
+}
+
+.transaction-date {
+    font-size: 0.8rem;
+    color: var(--text-color);
+}
+
+.transaction-amount {
+    float: right;
+    font-weight: bold;
+}
+
+.expense {
+    color: #d93025;
+}
+
+.income {
+    color: #34a853;
+}
+
+.wallet-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.wallet-actions button {
+    flex: 1;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+}
+
+.delete-wallet {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+}
+
+.delete-wallet:hover {
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+}
+
+.add-transaction {
+    margin-top: 1rem;
+}
+
+.no-wallets {
+    text-align: center;
+    color: var(--text-color);
+    margin: 2rem 0;
+}
+
+.current-wallet {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--highlight-color);
+    font-size: 1.5rem;
+}
+
+.add-transaction-form {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+.radio-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.select-wallet {
+    background: linear-gradient(135deg, #4caf50, #43a047);
+}
+
+.select-wallet:hover {
+    background: linear-gradient(135deg, #43a047, #4caf50);
+}
+
+.stock-card {
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 1rem 0;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+}
+
+.stock-price, .stock-high, .stock-low {
+    font-weight: bold;
+}
+
+.stock-change-positive {
+    color: #34a853;
+}
+
+.stock-change-negative {
+    color: #d93025;
+}
+
+#watchlist {
+    margin-top: 1rem;
+}
+
+.watchlist-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.watchlist-symbol {
+    font-weight: bold;
+}
+
+.watchlist-price {
+    color: var(--text-color);
+}
+
+.watchlist-change {
+    min-width: 80px;
+    text-align: right;
+}
+
+.remove-from-watchlist {
+    background: linear-gradient(135deg, #f44336, #d32f2f);
+    padding: 0.25rem 0.5rem;
+    margin: 0;
+    border-radius: 4px;
+}
+
+.remove-from-watchlist:hover {
+    background: linear-gradient(135deg, #d32f2f, #f44336);
+}
+
+/* Layout for the dashboard */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.dashboard-section {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--glass-border);
+    transition: transform 0.3s ease-in-out;
+    backdrop-filter: blur(10px);
+}
+
+.dashboard-section:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(86, 204, 242, 0.3);
+}
+
+.dashboard-section h2 {
+    margin-top: 0;
+    color: var(--highlight-color);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Risk Analyzer */
+.risk-analyzer {
+    margin-top: 2rem;
+    border-top: 1px solid var(--glass-border);
+    padding-top: 1rem;
+}
+
+.risk-slider-container {
+    margin: 1.5rem 0;
+}
+
+.risk-slider {
+    width: 100%;
+    margin: 1rem 0;
+    appearance: none;
+    height: 8px;
+    background: var(--glass-bg);
+    border-radius: 4px;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.risk-slider:hover {
+    opacity: 1;
+}
+
+.risk-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--highlight-color);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
+
+.risk-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+.risk-label {
+    font-size: 0.8rem;
+    color: var(--text-color);
+}
+
+.stock-recommendation {
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1rem;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+}
+
+.recommendation-header {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--highlight-color);
+}
+
+.stock-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.metric {
+    background: var(--glass-bg);
+    padding: 0.5rem;
+    border-radius: 8px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.metric-name {
+    font-size: 0.8rem;
+    color: var(--text-color);
+}
+
+.metric-value {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.risk-info-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: var(--highlight-color);
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 16px;
+    font-size: 12px;
+    cursor: help;
+    margin-left: 0.25rem;
+}
+
+.stock-category {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    margin-top: 0.25rem;
+}
+
+.risk-level {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+.risk-low {
+    background: linear-gradient(135deg, #34a853, #2e8b47);
+}
+
+.risk-medium {
+    background: linear-gradient(135deg, #fbbc05, #f9a825);
+    color: #333;
+}
+
+.risk-high {
+    background: linear-gradient(135deg, #ea4335, #d32f2f);
+}
+
+.popular-stocks {
+    margin-top: 1.5rem;
+}
+
+.stocks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.stock-card-mini {
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+}
+
+.stock-card-mini:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(86, 204, 242, 0.3);
+}
+
+.stock-symbol {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.risk-reward-ratio {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.8rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Dashboard sections layout */
+.dashboard-sections {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .dashboard-sections {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.section-heading {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 0.5rem;
+}
+
+.dashboard-card {
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1rem;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+}
