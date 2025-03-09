@@ -4,12 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wallet Tracker</title>
-  <link rel = "stylesheet" href = "home.css">
-
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
   <div class="container" id="app-container">
-    <h1>Wallet Tracker</h1>
+    <h1>FinTrack</h1>
+
+    <div class="user-info">
+      <img src="avatar_profile_pic.jpg" alt="User Avataer" class="user-avatar">
+      <span class="welcome-text">Welcome, <span id="username">User</span>!</span>
+    </div>
     
     <div class="tabs">
       <div class="tab active" id="tab-dashboard">Dashboard</div>
@@ -85,7 +89,7 @@
         
         <div class="risk-slider-container">
           <label for="risk-tolerance">Your Risk Tolerance:</label>
-          <input type="range" id="risk-tolerance" class="risk-slider" min="1" max="10" value="5">
+          <input type="range" id="risk-tolerance" class="risk-slider" min="0" max="10" value="5" step="1">
           <div class="risk-labels">
             <div class="risk-label">Conservative</div>
             <div class="risk-label">Moderate</div>
