@@ -1,9 +1,12 @@
 [
     {
       "email": "test@example.com",
-      "username":"test",
-      "password": "$2a$10$abc123hashedpassword", 
-      "walletAddress": null
+      "username": "cryptogoonwarrior",
+      "password": "$2b$10$UHXytknf0JcgmEd3eQ5L2erF9Lipn1QXzXSw38CZNk1vhKYXUJjYm", 
+      "walletAddress": null,
+      "_comment": "password is 'Testpassword123'"
     }
   ]
+  
+  
   

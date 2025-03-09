@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node login_back_end.js"
+    "start": "node login/login_back_end.js"
   },
   "repository": {
     "type": "git",
@@ -19,4 +19,3 @@
   "homepage": "https://github.com/YengHer919/HackMercedX#readme",
   "description": ""
 }
-
