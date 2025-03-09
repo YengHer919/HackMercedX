@@ -1,9 +1,0 @@
-[
-    {
-      "email": "test@example.com",
-      "username":"test",
-      "password": "$2a$10$abc123hashedpassword", 
-      "walletAddress": null
-    }
-  ]
-  
